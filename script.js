@@ -31,7 +31,7 @@ const displayController = (function () {
     const player_2 = playerFactory("Laura", "O");
 
     let turn = player_1; 
-    renderPlayer(); 
+    renderPlaying(); 
 
     function renderBoard(positions) {
 
@@ -53,7 +53,7 @@ const displayController = (function () {
 
     }
 
-    function renderPlayer() {
+    function renderPlaying() {
         const divPlaying = document.querySelector(".playing");
         const msg = `${turn.name} is your shift`;
         divPlaying.textContent = msg;
@@ -68,17 +68,17 @@ const displayController = (function () {
         
         let position = event.target.dataset.index;
                 
-        if (moveAvailable && !isWinner(turn.getSymbol()) ) {
+        if (moveAvailable) { //&& !isWinner(turn.getSymbol())
             let bool = turn.positionSymbol(position);
             if (!bool) return;
         }
 
         renderBoard(gameboard.gameboard);
 
-        if ( isWinner(turn.getSymbol()) ) gameOver(true);
-
-        if(moveAvailable) {
-            
+        if ( isWinner(turn.getSymbol()) ) {
+            gameOver(true);
+        } 
+        else if(moveAvailable()) {
             swapPlayer();
         }
         else {
@@ -88,14 +88,16 @@ const displayController = (function () {
     }
 
     function isWinner(c) {
-        const tris = c + c +c;
-        const line = gameboard.gameboard.join("");
+        const tris = c + c + c;
         const arr = gameboard.gameboard;
 
         // rows
-        if(line.startsWith(tris)) return true;
-        if(line.endsWith(tris)) return true;
-        if(line.includes(tris, 3)) return true;
+        let row = arr[0] + arr[1] + arr[2];
+        if(row === tris) return true;
+        row = arr[3] + arr[4] + arr[5];
+        if(row === tris) return true;
+        row = arr[6] + arr[7] + arr[8];
+        if(row === tris) return true;
 
         // columns
         let column = arr[0] + arr[3] + arr[6];
@@ -108,7 +110,7 @@ const displayController = (function () {
         // diagonals
         let diagonal = arr[0] + arr[4] + arr[8];
         if(diagonal === tris) return true;
-        diagonal = arr[3] + arr[4] + arr[7];
+        diagonal = arr[2] + arr[4] + arr[5];
         if(diagonal === tris) return true;
 
         return false;
@@ -118,7 +120,7 @@ const displayController = (function () {
         if(turn === player_1) turn = player_2
         else    
             turn = player_1;
-        renderPlayer();
+        renderPlaying();
     }
 
     function moveAvailable() {
@@ -129,11 +131,14 @@ const displayController = (function () {
         for(let box of boxes) {
             box.removeEventListener("click", playShift);
         }
-console.log("end");
+
         const divGameOver = document.querySelector(".gameOver");
         const msg = winner ? `The winner is ${turn.name}` : `nobody wins`;
         divGameOver.textContent = msg;
+
+        console.log("game over", winner);
     }
+
 
     return { renderBoard };
 })();
