@@ -17,7 +17,7 @@
     font-size: 22px;
     display: flex;
     flex-direction: column;
-
+    justify-content: space-between;
 }
 
 .row_1, .row_2, .row_3 {

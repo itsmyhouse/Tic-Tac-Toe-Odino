@@ -33,6 +33,11 @@ const displayController = (function () {
     let turn = player_1; 
     renderPlaying(); 
 
+    namePlayer = (player_1, player_2) => {
+        document.querySelector(".player_1").textContent = player_1.name;
+        document.querySelector(".player_2").textContent = player_2.name;
+    };
+
     function renderBoard(positions) {
 
         let row_1 = document.querySelector(".row_1");
@@ -135,14 +140,12 @@ const displayController = (function () {
         const divGameOver = document.querySelector(".gameOver");
         const msg = winner ? `The winner is ${turn.name}` : `nobody wins`;
         divGameOver.textContent = msg;
-
-        console.log("game over", winner);
     }
 
 
-    return { renderBoard };
+    return { renderBoard, player_1, player_2, namePlayer };
 })();
 
-
+displayController.namePlayer(displayController.player_1, displayController.player_2);
 
 displayController.renderBoard(gameboard.gameboard);
