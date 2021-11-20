@@ -1,0 +1,24 @@
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.board {
+    width: 600px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chess {
+    width: 300px;
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+}
+
+.row_1, .row_2, .row_3 {
+    display: flex;
+    justify-content: space-between;
+}
